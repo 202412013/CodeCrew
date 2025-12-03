@@ -23,9 +23,10 @@ const submitCode = async (req,res)=>{
       console.log(language);
       
     //    Fetch the problem from database
+    console.log("Hello")
        const problem =  await Problem.findById(problemId);
     //    testcases(Hidden)
-    
+    console.log("Bye");
     //   Kya apne submission store kar du pehle....
     const submittedResult = await Submission.create({
           userId,
@@ -110,6 +111,7 @@ const submitCode = async (req,res)=>{
        
     }
     catch(err){
+      console.log("Error comes here"+err)
       res.status(500).send("Internal Server Error "+ err);
     }
 }

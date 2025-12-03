@@ -1,6 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Pause, Play } from 'lucide-react';
 
+
+
 const Editorial = ({ secureUrl, thumbnailUrl, duration }) => {
 
 
