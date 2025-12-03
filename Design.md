@@ -1,6 +1,5 @@
 ZeroDayCoder – Software Design Commentary
 
-(design.md)
 
 1. How We Improved the Design of the Software
 
