@@ -37,7 +37,7 @@ function Login() {
     <div className="min-h-screen flex items-center justify-center p-4 bg-base-200"> {/* Added bg for contrast */}
       <div className="card w-96 bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title justify-center text-3xl mb-6">Leetcode</h2> {/* Added mb-6 */}
+          <h2 className="card-title justify-center text-3xl mb-6">ZeroDayCoder</h2> {/* Added mb-6 */}
 
           
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -47,7 +47,7 @@ function Login() {
               </label>
               <input
                 type="email"
-                placeholder="john@example.com"
+                placeholder="yash@gmail.com"
                 className={`input input-bordered w-full ${errors.emailId ? 'input-error' : ''}`} 
                 {...register('emailId')}
               />
@@ -63,7 +63,7 @@ function Login() {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="Yash@123"
                   className={`input input-bordered w-full pr-10 ${errors.password ? 'input-error' : ''}`}
                   {...register('password')}
                 />

@@ -12,7 +12,6 @@ const createProblem = async (req,res)=>{
         referenceSolution, problemCreator
     } = req.body;
 
-
     try{
        
       for(const {language,completeCode} of referenceSolution){
@@ -44,10 +43,11 @@ const createProblem = async (req,res)=>{
        const testResult = await submitToken(resultToken);
 
 
-       console.log(testResult);
+      //  console.log(testResult);
 
        for(const test of testResult){
         if(test.status_id!=3){
+          console.log(test.status_id);
          return res.status(400).send("Error Occured");
         }
        }
@@ -68,6 +68,29 @@ const createProblem = async (req,res)=>{
         res.status(400).send("Error: "+err);
     }
 }
+
+const getProblemByIdForAdmin = async(req,resp)=>{
+    const {id} = req.params;
+    try{
+      if(!id)
+        return resp.status(400).send("ID is Missing");
+      const getProblem = await Problem.findById(id);
+      if(!getProblem){
+        return resp.status(404).send("Problem Not Found");
+      }
+      resp.status(200).send(
+        {
+          success:true,
+          data:getProblem
+        }
+      )
+    }
+    catch(err){
+      console.error("Error Fetching Problem for Admin: ", err);
+      resp.status(500).send("Internal Server Error");
+    }
+}
+
 
 const updateProblem = async (req,res)=>{
     
@@ -160,6 +183,7 @@ const deleteProblem = async(req,res)=>{
 }
 
 
+
 const getProblemById = async(req,res)=>{
 
   const {id} = req.params;
@@ -195,7 +219,7 @@ const getProblemById = async(req,res)=>{
   catch(err){
     res.status(500).send("Error: "+err);
   }
-}
+} 
 
 const getAllProblem = async(req,res)=>{
 
@@ -256,6 +280,6 @@ const submittedProblem = async(req,res)=>{
 
 
 
-module.exports = {createProblem,updateProblem,deleteProblem,getProblemById,getAllProblem,solvedAllProblembyUser,submittedProblem};
+module.exports = {createProblem,getProblemByIdForAdmin,updateProblem,deleteProblem,getProblemById,getAllProblem,solvedAllProblembyUser,submittedProblem};
 
 

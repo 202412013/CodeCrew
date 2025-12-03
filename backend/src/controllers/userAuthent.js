@@ -10,30 +10,35 @@ const register = async (req,res)=>{
     
     try{
         // validate the data;
-
+      console.log(req.body);
       validate(req.body); 
       const {firstName, emailId, password}  = req.body;
 
       req.body.password = await bcrypt.hash(password, 10);
       req.body.role = 'user'
-    //
-    
-     const user =  await User.create(req.body);
-     const token =  jwt.sign({_id:user._id , emailId:emailId, role:'user'},process.env.JWT_KEY,{expiresIn: 60*60});
-     const reply = {
+    const user =  await User.create(req.body);
+    const token =  jwt.sign({_id:user._id , emailId:emailId, role:'user'},process.env.JWT_KEY,{expiresIn: 60*60});
+    const reply = {
         firstName: user.firstName,
         emailId: user.emailId,
         _id: user._id,
         role:user.role,
     }
     
-     res.cookie('token',token,{maxAge: 60*60*1000});
+     res.cookie('token',token,{
+            maxAge: 60*60*1000,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            httpOnly: true
+        });
+        
      res.status(201).json({
         user:reply,
         message:"Loggin Successfully"
     })
     }
     catch(err){
+        console.log("Error :- "+err);
         res.status(400).send("Error: "+err);
     }
 }
@@ -64,7 +69,12 @@ const login = async (req,res)=>{
         }
 
         const token =  jwt.sign({_id:user._id , emailId:emailId, role:user.role},process.env.JWT_KEY,{expiresIn: 60*60});
-        res.cookie('token',token,{maxAge: 60*60*1000});
+         res.cookie('token',token,{
+            maxAge: 60*60*1000,
+            secure: process.env.NODE_ENV === 'production', // true in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // cross-site in production
+            httpOnly: true
+        });
         res.status(201).json({
             user:reply,
             message:"Loggin Successfully"

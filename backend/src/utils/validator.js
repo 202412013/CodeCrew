@@ -8,14 +8,20 @@ const validate = (data)=>{
 
     const IsAllowed = mandatoryField.every((k)=> Object.keys(data).includes(k));
 
-    if(!IsAllowed)
+    if(!IsAllowed){
+        console.log("Validator.js File error");
         throw new Error("Some Field Missing");
+    }
 
-    if(!validator.isEmail(data.emailId))
+    if(!validator.isEmail(data.emailId)){
+        console.log("Not a Strong Email");
         throw new Error("Invalid Email");
+    }
 
-    if(!validator.isStrongPassword(data.password))
+    if(!validator.isStrongPassword(data.password)){
+        console.log("Not a Strong Password");
         throw new Error("Week Password");
+    }
 }
 
 module.exports = validate;
